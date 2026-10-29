@@ -14,11 +14,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.png">
 <!-- Filled in last, from the hashes of this page's own inline scripts. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5yDCzIKOtFOGOJQ6vHdpstsa6eE0ZvQMWJoKd2/QL9k=' 'sha256-Log+QMfYjwxBi2ZUUFClkGYH+IDpb73AauMN3WrrR1E='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5yDCzIKOtFOGOJQ6vHdpstsa6eE0ZvQMWJoKd2/QL9k=' 'sha256-NNYBa0mCwWGCPQnpmhjOpD/m/jidZm0Pj+jh3/6pcaA='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <style>/* =========================================================================
    Yaspieze store
-   Deliberately not the main site: darker, warmer, closer to a shop window
-   than a page of text. Same character palette, much more of it.
+   The whole page is composed around the season: a mesh-gradient sky, light
+   through it, foliage in the corners, and something falling past you. Every
+   layer below is cheap on purpose — gradients and a handful of masked
+   shapes rather than artwork, so it still loads in under a second.
    ========================================================================= */
 
 /* 1 reset */
@@ -33,7 +35,7 @@ h1,h2,h3,p,dl,dd,figure{margin:0}
 
 /* 2 tokens */
 :root{
-  --paper:#f4f0f6;
+  --paper:#f3eff7;
   --surface:#fffdfb;
   --ink:#221b2b;
   --ink-2:#54495f;
@@ -42,10 +44,12 @@ h1,h2,h3,p,dl,dd,figure{margin:0}
   --hairline:rgba(34,27,43,.08);
 
   --accent:#8b3f86;
-  --accent-2:#b35fae;
   --accent-ink:#fff6fe;
-  --bloom-a:rgba(179,110,196,.40);
-  --bloom-b:rgba(214,132,90,.30);
+  --s1:#8b3f86; --s2:#c2683f; --s3:#e0a355;
+  --glow:rgba(224,163,85,.55);
+  --foliage:rgba(60,30,55,.30);
+  --shape:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c5 4 8 9 8 14a8 8 0 0 1-16 0c0-5 3-10 8-14z'/%3E%3C/svg%3E");
+  --p1:#c2683f; --p2:#e0a355; --p3:#8b3f86;
 
   --radius:20px;
   --radius-sm:11px;
@@ -59,18 +63,42 @@ h1,h2,h3,p,dl,dd,figure{margin:0}
   color-scheme:light;
 }
 
-/* 3 the four seasons. She changes outfit; the shop changes with her. */
-[data-season="autumn"]{--accent:#8b3f86;--accent-2:#c2683f;--accent-ink:#fff6fe;--bloom-a:rgba(179,110,196,.40);--bloom-b:rgba(214,132,90,.32)}
-[data-season="winter"]{--accent:#6a5fbe;--accent-2:#4d7fbf;--accent-ink:#f6f4ff;--bloom-a:rgba(126,110,214,.38);--bloom-b:rgba(90,150,205,.30)}
-[data-season="spring"]{--accent:#b8448f;--accent-2:#5aa88c;--accent-ink:#fff5fb;--bloom-a:rgba(226,140,190,.38);--bloom-b:rgba(120,190,165,.28)}
-[data-season="summer"]{--accent:#9a4fae;--accent-2:#e0894f;--accent-ink:#fdf4ff;--bloom-a:rgba(190,130,224,.36);--bloom-b:rgba(240,170,120,.28)}
+/* 3 four seasons. She changes outfit; the shop changes everything else. */
+[data-season="autumn"]{
+  --accent:#8b3f86;--accent-ink:#fff6fe;
+  --s1:#8b3f86;--s2:#c2683f;--s3:#e6b060;--glow:rgba(230,176,96,.55);
+  --foliage:rgba(58,26,50,.32);
+  --p1:#c2683f;--p2:#e6b060;--p3:#8b3f86;
+  --shape:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c5 4 8 9 8 14a8 8 0 0 1-16 0c0-5 3-10 8-14z'/%3E%3C/svg%3E");
+}
+[data-season="winter"]{
+  --accent:#6a5fbe;--accent-ink:#f6f4ff;
+  --s1:#5a4fae;--s2:#4d7fbf;--s3:#a8c8e8;--glow:rgba(168,200,232,.6);
+  --foliage:rgba(24,32,58,.34);
+  --p1:#a8c8e8;--p2:#dce9f6;--p3:#7f9fd0;
+  --shape:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='5.5'/%3E%3C/svg%3E");
+}
+[data-season="spring"]{
+  --accent:#b8448f;--accent-ink:#fff5fb;
+  --s1:#b8448f;--s2:#5aa88c;--s3:#f2b3cf;--glow:rgba(242,179,207,.6);
+  --foliage:rgba(38,66,52,.28);
+  --p1:#f2b3cf;--p2:#5aa88c;--p3:#b8448f;
+  --shape:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c3 5 5 9 5 12a5 5 0 0 1-10 0c0-3 2-7 5-12z'/%3E%3C/svg%3E");
+}
+[data-season="summer"]{
+  --accent:#9a4fae;--accent-ink:#fdf4ff;
+  --s1:#9a4fae;--s2:#e0894f;--s3:#f5c26b;--glow:rgba(245,194,107,.6);
+  --foliage:rgba(70,38,26,.26);
+  --p1:#f5c26b;--p2:#e0894f;--p3:#9a4fae;
+  --shape:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z'/%3E%3C/svg%3E");
+}
 
 [data-theme="dark"]{
-  --paper:#120f18;
-  --surface:#1a1522;
+  --paper:#100d17;
+  --surface:#191324;
   --ink:#f4eff7;
-  --ink-2:#b8aec4;
-  --ink-3:#8f849c;
+  --ink-2:#bcb2c8;
+  --ink-3:#948aa2;
   --line:rgba(255,255,255,.13);
   --hairline:rgba(255,255,255,.07);
   --shadow-sm:0 1px 2px rgba(0,0,0,.5),0 10px 22px -14px rgba(0,0,0,.8);
@@ -78,32 +106,17 @@ h1,h2,h3,p,dl,dd,figure{margin:0}
   --shadow-lift:0 6px 16px rgba(0,0,0,.6),0 44px 74px -34px rgba(0,0,0,.95);
   color-scheme:dark;
 }
-[data-theme="dark"][data-season="autumn"]{--accent:#d792e0;--accent-2:#e8a06a;--accent-ink:#1c0d1e}
-[data-theme="dark"][data-season="winter"]{--accent:#a99bf0;--accent-2:#7fb4ea;--accent-ink:#100d24}
-[data-theme="dark"][data-season="spring"]{--accent:#ef9ccb;--accent-2:#7fd0ac;--accent-ink:#220f1b}
-[data-theme="dark"][data-season="summer"]{--accent:#c79bea;--accent-2:#f0a878;--accent-ink:#1a0f22}
+[data-theme="dark"][data-season="autumn"]{--accent:#d792e0;--accent-ink:#1c0d1e;--foliage:rgba(0,0,0,.5)}
+[data-theme="dark"][data-season="winter"]{--accent:#a99bf0;--accent-ink:#100d24;--foliage:rgba(0,0,0,.5)}
+[data-theme="dark"][data-season="spring"]{--accent:#ef9ccb;--accent-ink:#220f1b;--foliage:rgba(0,0,0,.5)}
+[data-theme="dark"][data-season="summer"]{--accent:#c79bea;--accent-ink:#1a0f22;--foliage:rgba(0,0,0,.5)}
 
-/* 4 base, and the field behind everything */
+/* 4 base */
 body{
   font-family:var(--font);background:var(--paper);color:var(--ink);
   font-size:16.5px;line-height:1.6;letter-spacing:-.005em;
-  -webkit-font-smoothing:antialiased;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-body::before{
-  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
-  background:
-    radial-gradient(52% 40% at 6% -4%,var(--bloom-a) 0%,transparent 62%),
-    radial-gradient(44% 38% at 100% 6%,var(--bloom-b) 0%,transparent 60%),
-    radial-gradient(70% 50% at 46% 106%,var(--bloom-a) 0%,transparent 68%);
-}
-/* paper grain: the thing that stops it looking like a template */
-body::after{
-  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
-  mix-blend-mode:multiply;
-}
-[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.26}
-
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--pad)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 a{color:var(--accent);text-decoration:none}
@@ -117,30 +130,68 @@ p{margin-top:12px}
   background:var(--accent);color:var(--accent-ink);font-weight:700;transition:top .16s var(--ease)}
 .skip:focus{top:12px;text-decoration:none}
 
-/* 5 the bar */
+/* 5 the sky. Three soft lights over a gradient, and a vignette to close
+   the edges the way a finished poster does. */
+.sky{position:fixed;inset:0;z-index:-2;pointer-events:none}
+.sky::before{
+  content:"";position:absolute;inset:-10%;
+  background:
+    radial-gradient(46% 40% at 10% -2%,var(--s1) 0%,transparent 62%),
+    radial-gradient(44% 38% at 96% 6%,var(--s2) 0%,transparent 60%),
+    radial-gradient(66% 48% at 44% 104%,var(--s3) 0%,transparent 66%);
+  opacity:.34;
+}
+.sky::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 44%,transparent 52%,rgba(20,10,30,.20) 100%);
+}
+/* grain: the single cheapest thing that stops a gradient looking like CSS */
+.grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.42;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;
+}
+[data-theme="dark"] .grain{mix-blend-mode:screen;opacity:.24}
+
+/* 6 what is falling past you */
+.fall{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
+.fall span{
+  position:absolute;top:-8%;display:block;will-change:transform;
+  background:currentColor;
+  -webkit-mask:var(--shape) center/contain no-repeat;mask:var(--shape) center/contain no-repeat;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  0%{transform:translate3d(0,-10vh,0) rotate(0deg);opacity:0}
+  8%{opacity:.9}
+  92%{opacity:.9}
+  100%{transform:translate3d(var(--drift,4vw),110vh,0) rotate(var(--spin,420deg));opacity:0}
+}
+
+/* 7 the bar */
 .bar{
   position:sticky;top:0;z-index:60;
-  background:color-mix(in srgb,var(--paper) 82%,transparent);
+  background:color-mix(in srgb,var(--paper) 80%,transparent);
   -webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%);
   border-bottom:1px solid var(--hairline);
 }
 .bar__in{display:flex;align-items:center;gap:14px;padding-block:11px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-.02em;color:var(--ink)}
 .brand:hover{text-decoration:none;color:var(--accent)}
-.brand img{height:26px;width:auto}
-.brand__dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.brand__dot{
+  width:9px;height:9px;border-radius:50%;
+  background:linear-gradient(140deg,var(--s2),var(--s1));box-shadow:0 0 0 3px color-mix(in srgb,var(--s2) 22%,transparent);
+}
 .bar__links{display:flex;gap:4px;margin-left:8px}
 .bar__links a{padding:8px 12px;border-radius:9px;color:var(--ink-2);font-size:14px;font-weight:600}
 .bar__links a:hover{background:var(--hairline);color:var(--ink);text-decoration:none}
 .bar__spacer{flex:1}
-
 .icon-btn{
   display:grid;place-items:center;width:38px;height:38px;border-radius:11px;cursor:pointer;
   background:transparent;border:1px solid var(--line);color:var(--ink-2);
 }
 .icon-btn:hover{background:var(--hairline);color:var(--ink)}
 .icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-
 .cart-btn{position:relative}
 .cart-btn__n{
   position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;
@@ -149,71 +200,144 @@ p{margin-top:12px}
 }
 .cart-btn[data-empty="1"] .cart-btn__n{display:none}
 
-/* 6 the season banner */
+/* 8 the banner. Layered like a poster: flat colour, light through it,
+   grain, foliage in the corners, and her floating in front of it all. */
 .banner{
   position:relative;overflow:hidden;margin-top:20px;border-radius:var(--radius);
   border:1px solid var(--hairline);box-shadow:var(--shadow-md);isolation:isolate;
 }
-.banner::before{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(115deg,var(--accent) 0%,var(--accent-2) 100%);opacity:.94;
-}
-.banner::after{
-  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+.banner__wash{
+  position:absolute;inset:0;z-index:-3;
   background:
-    radial-gradient(46% 120% at 92% 8%,rgba(255,255,255,.30),transparent 60%),
-    radial-gradient(60% 90% at 4% 100%,rgba(0,0,0,.22),transparent 62%);
-  mix-blend-mode:overlay;
+    radial-gradient(70% 90% at 4% 4%,color-mix(in srgb,var(--s1) 92%,#000) 0%,transparent 64%),
+    radial-gradient(80% 96% at 100% 8%,var(--s2) 0%,transparent 62%),
+    radial-gradient(120% 120% at 46% 116%,var(--s3) 0%,transparent 60%),
+    linear-gradient(146deg,var(--s1) 0%,var(--s2) 100%);
 }
-.banner__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:20px;align-items:center;padding:clamp(26px,4vw,46px)}
+/* light through the scene, turning slowly */
+.banner__rays{
+  position:absolute;inset:-30%;z-index:-2;pointer-events:none;
+  background:repeating-linear-gradient(112deg,transparent 0 52px,rgba(255,255,255,.09) 52px 104px);
+  -webkit-mask:radial-gradient(60% 60% at 78% 12%,#000 0%,transparent 72%);
+  mask:radial-gradient(60% 60% at 78% 12%,#000 0%,transparent 72%);
+  animation:rays 44s linear infinite;
+}
+@keyframes rays{to{transform:rotate(360deg)}}
+.banner__glow{
+  position:absolute;z-index:-2;left:50%;top:8%;width:min(60%,430px);aspect-ratio:1;
+  transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle,var(--glow) 0%,transparent 66%);
+}
+.banner__vig{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(118% 92% at 50% 42%,transparent 46%,rgba(18,8,26,.34) 100%);
+}
+.banner__in{
+  position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.72fr);
+  gap:20px;align-items:center;padding:clamp(28px,4vw,50px);
+}
 .banner__copy{color:#fff}
 .banner__tag{
-  display:inline-flex;align-items:center;gap:8px;padding:5px 13px;border-radius:999px;
-  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);
+  display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
 }
-.banner h1{color:#fff;margin-top:14px}
-.banner p{color:rgba(255,255,255,.9);max-width:44ch;font-size:1.02rem}
-.banner__art{display:grid;place-items:center}
+.banner h1{
+  margin-top:14px;color:#fff;
+  text-shadow:0 2px 18px rgba(30,8,26,.42),0 1px 0 rgba(0,0,0,.18);
+}
+.banner p{color:rgba(255,255,255,.92);max-width:44ch;font-size:1.02rem;text-shadow:0 1px 10px rgba(30,8,26,.3)}
+.banner__art{display:grid;place-items:center;position:relative}
 .banner__art img{
-  width:min(100%,300px);height:auto;filter:drop-shadow(0 24px 44px rgba(0,0,0,.42));
+  width:min(100%,320px);height:auto;
+  filter:drop-shadow(0 26px 34px rgba(24,6,22,.45));
   animation:float 7s ease-in-out infinite;
 }
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+/* the same spray, mirrored, tucked into both bottom corners */
+.banner__foliage{
+  position:absolute;bottom:-6px;width:min(38%,270px);aspect-ratio:240/140;
+  background:var(--foliage);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 140'%3E%3Cg fill='%23000'%3E%3Cpath d='M2 138C44 112 92 78 138 34' stroke='%23000' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='34' cy='112' rx='26' ry='12' transform='rotate(-40 34 112)'/%3E%3Cellipse cx='66' cy='94' rx='24' ry='11' transform='rotate(-52 66 94)'/%3E%3Cellipse cx='96' cy='74' rx='22' ry='10' transform='rotate(-46 96 74)'/%3E%3Cellipse cx='124' cy='52' rx='19' ry='9' transform='rotate(-58 124 52)'/%3E%3Cellipse cx='46' cy='128' rx='21' ry='10' transform='rotate(-18 46 128)'/%3E%3Cellipse cx='80' cy='112' rx='20' ry='9' transform='rotate(-26 80 112)'/%3E%3Cellipse cx='112' cy='90' rx='18' ry='8' transform='rotate(-30 112 90)'/%3E%3Cellipse cx='150' cy='34' rx='15' ry='7' transform='rotate(-62 150 34)'/%3E%3C/g%3E%3C/svg%3E") no-repeat center/contain;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 140'%3E%3Cg fill='%23000'%3E%3Cpath d='M2 138C44 112 92 78 138 34' stroke='%23000' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='34' cy='112' rx='26' ry='12' transform='rotate(-40 34 112)'/%3E%3Cellipse cx='66' cy='94' rx='24' ry='11' transform='rotate(-52 66 94)'/%3E%3Cellipse cx='96' cy='74' rx='22' ry='10' transform='rotate(-46 96 74)'/%3E%3Cellipse cx='124' cy='52' rx='19' ry='9' transform='rotate(-58 124 52)'/%3E%3Cellipse cx='46' cy='128' rx='21' ry='10' transform='rotate(-18 46 128)'/%3E%3Cellipse cx='80' cy='112' rx='20' ry='9' transform='rotate(-26 80 112)'/%3E%3Cellipse cx='112' cy='90' rx='18' ry='8' transform='rotate(-30 112 90)'/%3E%3Cellipse cx='150' cy='34' rx='15' ry='7' transform='rotate(-62 150 34)'/%3E%3C/g%3E%3C/svg%3E") no-repeat center/contain;
+  pointer-events:none;
+}
+.banner__foliage--l{left:-14px}
+.banner__foliage--r{right:-14px;transform:scaleX(-1)}
 
-/* 7 the shelf heading */
+/* 9 the spotlight: the piece the season is built around */
+.spot{
+  position:relative;overflow:hidden;margin-top:clamp(22px,3vw,30px);
+  display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1fr);
+  border-radius:var(--radius);border:1px solid var(--hairline);
+  background:var(--surface);box-shadow:var(--shadow-md);
+}
+.spot__art{
+  position:relative;background:#fff;display:grid;place-items:center;padding:22px;
+  border-right:1px solid var(--hairline);
+}
+.spot__art::after{
+  content:"";position:absolute;inset:auto -20% -34% -20%;height:70%;
+  background:radial-gradient(60% 100% at 50% 0%,var(--glow) 0%,transparent 70%);opacity:.5;
+}
+.spot__art img{position:relative;width:100%;max-width:330px;height:auto}
+.spot__copy{padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;justify-content:center}
+.spot__eyebrow{
+  display:inline-block;font-size:11px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);
+}
+.spot h2{margin-top:10px;font-size:clamp(1.3rem,2.6vw,1.8rem)}
+.spot p{color:var(--ink-2);font-size:14.8px;max-width:46ch}
+.spot__price{display:flex;align-items:baseline;gap:10px;margin-top:16px}
+.spot__price b{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.spot__price span{font-size:13px;color:var(--ink-3)}
+.spot__go{
+  align-self:flex-start;margin-top:18px;padding:12px 22px;border-radius:12px;
+  background:linear-gradient(140deg,var(--s1),var(--s2));color:#fff;font-weight:800;
+  font-size:14.5px;box-shadow:0 10px 22px -12px color-mix(in srgb,var(--s1) 85%,transparent);
+}
+.spot__go:hover{text-decoration:none;filter:brightness(1.07)}
+
+/* 10 shelf heading */
 .shelf-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:clamp(34px,5vw,54px)}
 .shelf-head h2{position:relative}
 .shelf-head h2::after{
-  content:"";position:absolute;left:0;bottom:-.16em;width:64px;height:.22em;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 9.5C38 4.2 76 3.1 112 5.4c26 1.6 52 4.4 86 1.2' fill='none' stroke='%23ffffff' stroke-width='3.4' stroke-linecap='round' opacity='.7'/%3E%3C/svg%3E") no-repeat center/100% 100%;
+  content:"";position:absolute;left:0;bottom:-.18em;width:62px;height:.22em;
+  background:linear-gradient(90deg,var(--s2),var(--s1));border-radius:2px;opacity:.85;
 }
 .shelf-note{font-size:13.5px;color:var(--ink-3);margin-top:0}
 
-/* 8 the product grid */
+/* 11 product cards */
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,22px);margin-top:26px}
-
 .card{
-  display:flex;flex-direction:column;border-radius:var(--radius);overflow:hidden;
+  position:relative;display:flex;flex-direction:column;border-radius:var(--radius);overflow:hidden;
   background:var(--surface);border:1px solid var(--hairline);box-shadow:var(--shadow-sm);
   transition:transform .22s var(--ease),box-shadow .22s var(--ease);
 }
-.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+/* a hairline of season colour along the top edge */
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
+  background:linear-gradient(90deg,var(--s2),var(--s1) 55%,var(--s3));opacity:.85;
+}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md)}
 .card__media{
   position:relative;aspect-ratio:1;background:#fff;overflow:hidden;
   display:grid;place-items:center;border-bottom:1px solid var(--hairline);
 }
-.card__media img{width:100%;height:100%;object-fit:cover;transition:transform .35s var(--ease)}
-.card:hover .card__media img{transform:scale(1.045)}
+.card__media img{width:100%;height:100%;object-fit:cover;transition:transform .38s var(--ease)}
+.card:hover .card__media img{transform:scale(1.05)}
 .card__flag{
-  position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:999px;
-  background:var(--accent);color:var(--accent-ink);
+  position:absolute;top:12px;left:12px;padding:5px 11px;border-radius:999px;
+  background:rgba(255,255,255,.9);color:var(--s1);
   font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  box-shadow:0 2px 8px rgba(34,27,43,.16);
 }
+[data-theme="dark"] .card__flag{background:rgba(20,15,26,.9);color:var(--accent)}
 .card__body{padding:14px 15px 16px;display:flex;flex-direction:column;gap:3px;flex:1}
 .card__name{font-size:15.5px;font-weight:750;letter-spacing:-.015em}
 .card__sub{font-size:12.5px;color:var(--ink-3)}
-.card__price{margin-top:8px;font-size:16px;font-weight:800;color:var(--accent)}
+.card__price{margin-top:8px;font-size:16px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
 .card__sizes{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
 .size{
   min-width:34px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;
@@ -226,11 +350,11 @@ p{margin-top:12px}
   background:var(--ink);color:var(--paper);border:0;font-weight:750;font-size:14px;
   transition:background .16s var(--ease),transform .16s var(--ease);
 }
-.card__add:hover{background:var(--accent);color:var(--accent-ink)}
+.card__add:hover{background:linear-gradient(140deg,var(--s1),var(--s2));color:#fff}
 .card__add:active{transform:scale(.985)}
 .card[data-out]{display:none}
 
-/* 9 the away-shelf: what is out of season right now */
+/* 12 away until its season */
 .away{margin-top:clamp(30px,4vw,46px);padding-top:clamp(22px,3vw,34px);border-top:1px solid var(--hairline)}
 .away h2{font-size:1.15rem}
 .away p{color:var(--ink-2);font-size:14.5px;max-width:60ch}
@@ -242,11 +366,8 @@ p{margin-top:12px}
 .away__chip img{width:28px;height:28px;border-radius:8px;object-fit:cover}
 .away__chip b{color:var(--ink);font-weight:750}
 
-/* 10 the cart */
-.cart{
-  border:0;padding:0;max-width:100%;width:100%;height:100%;background:transparent;
-  position:fixed;inset:0;z-index:90;
-}
+/* 13 the cart */
+.cart{border:0;padding:0;max-width:100%;width:100%;height:100%;background:transparent;position:fixed;inset:0;z-index:90}
 .cart::backdrop{background:rgba(20,14,26,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 .cart[open]{display:grid;justify-items:end}
 .cart__panel{
@@ -268,7 +389,7 @@ p{margin-top:12px}
 .qbtn{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:transparent;cursor:pointer;line-height:1;color:var(--ink-2)}
 .qbtn:hover{border-color:var(--accent);color:var(--ink)}
 .cart__side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-.cart__price{font-size:14px;font-weight:750}
+.cart__price{font-size:14px;font-weight:750;font-variant-numeric:tabular-nums}
 .cart__del{background:transparent;border:0;color:var(--ink-3);font-size:12px;cursor:pointer;text-decoration:underline;padding:0}
 .cart__del:hover{color:var(--accent)}
 .cart__foot{padding:16px 20px;border-top:1px solid var(--hairline);background:var(--paper)}
@@ -286,7 +407,8 @@ p{margin-top:12px}
 .cart__save{color:var(--accent)}
 .cart__checkout{
   display:block;width:100%;margin-top:14px;padding:14px;border:0;border-radius:12px;
-  background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:15px;cursor:pointer;text-align:center;
+  background:linear-gradient(140deg,var(--s1),var(--s2));color:#fff;font-weight:800;font-size:15px;
+  cursor:pointer;text-align:center;
 }
 .cart__checkout:hover{filter:brightness(1.08);text-decoration:none}
 .cart__fine{font-size:11.5px;color:var(--ink-3);margin-top:9px;text-align:center}
@@ -298,28 +420,27 @@ p{margin-top:12px}
   word-break:break-word;text-align:left;max-height:190px;overflow:auto;
 }
 
-/* 11 footer */
+/* 14 footer */
 .foot{margin-top:clamp(40px,6vw,72px);border-top:1px solid var(--hairline);padding-block:26px}
 .foot__in{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;font-size:13px;color:var(--ink-3)}
 .foot a{color:var(--ink-2)}
 .foot a:hover{color:var(--accent)}
 .foot__links{display:flex;gap:16px;flex-wrap:wrap}
 
-/* 12 mobile tab bar for the cart */
+/* 15 mobile tab bar */
 .tabbar{display:none}
 
-/* 13 breakpoints */
-@media (max-width:1080px){
-  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
+/* 16 breakpoints */
+@media (max-width:1080px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (max-width:860px){
   .bar__links{display:none}
   .banner__in{grid-template-columns:1fr;text-align:center}
   .banner__copy{display:flex;flex-direction:column;align-items:center}
-  .banner h1::after,none{}
   .shelf-head h2::after{left:50%;transform:translateX(-50%)}
   .banner__art{order:-1}
-  .banner__art img{width:min(72%,230px)}
+  .banner__art img{width:min(70%,230px)}
+  .spot{grid-template-columns:1fr}
+  .spot__art{border-right:0;border-bottom:1px solid var(--hairline)}
 }
 @media (max-width:760px){
   .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -340,13 +461,13 @@ p{margin-top:12px}
   .tabbar svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   body{padding-bottom:76px}
 }
-@media (max-width:420px){
-  .grid{grid-template-columns:1fr}
-}
+@media (max-width:420px){ .grid{grid-template-columns:1fr} }
 
-/* 14 motion */
+/* 17 motion */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .fall{display:none}
+  .banner__rays{animation:none}
   .banner__art img{animation:none}
 }
 </style>
@@ -368,6 +489,10 @@ document.documentElement.classList.add('js');
 </head>
 <body id="top">
 <a class="skip" href="#main">Skip to content</a>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="fall" aria-hidden="true" data-fall></div>
 
 <header class="bar">
   <div class="wrap bar__in">
@@ -396,6 +521,10 @@ document.documentElement.classList.add('js');
   <div class="wrap">
 
     <section class="banner">
+      <div class="banner__wash" aria-hidden="true"></div>
+      <div class="banner__rays" aria-hidden="true"></div>
+      <div class="banner__glow" aria-hidden="true"></div>
+      <div class="banner__vig" aria-hidden="true"></div>
       <div class="banner__in">
         <div class="banner__copy">
           <span class="banner__tag" data-season-label>This season</span>
@@ -403,8 +532,26 @@ document.documentElement.classList.add('js');
           <p>Every piece is printed with the character, one outfit per season. Heavy cotton, proper print, made to order — so nothing sits in a warehouse going stale.</p>
         </div>
         <div class="banner__art">
-          <img src="assets/img/character.webp" alt="Yaspieze making a peace sign" width="480" height="503">
+          <img src="assets/img/character.webp" alt="Yaspieze making a peace sign" width="480" height="503" fetchpriority="high" decoding="async">
         </div>
+      </div>
+      <div class="banner__foliage banner__foliage--l" aria-hidden="true"></div>
+      <div class="banner__foliage banner__foliage--r" aria-hidden="true"></div>
+    </section>
+
+    <section class="spot" aria-labelledby="spot-title">
+      <div class="spot__art">
+        <img data-spot-img src="assets/img/hoodie-plum.webp" alt="" width="1100" height="1100">
+      </div>
+      <div class="spot__copy">
+        <span class="spot__eyebrow" data-spot-eyebrow>Season's pick</span>
+        <h2 id="spot-title" data-spot-name>Character hoodie</h2>
+        <p data-spot-copy>Heavyweight plum fleece with her in the winter coat, printed big across the chest. Warm enough to be the one you actually reach for.</p>
+        <div class="spot__price">
+          <b data-spot-price>£46.00</b>
+          <span data-spot-note>Printed to order · S to XXL</span>
+        </div>
+        <a class="spot__go" href="#shelf" data-spot-go>See it on the shelf</a>
       </div>
     </section>
 
@@ -626,6 +773,39 @@ document.documentElement.classList.add('js');
   var deal = DEALS[season] || DEALS.autumn;
   var state = { lines: [], promo: '', note: '', stage: 'cart' };
 
+  /* ---------------------------------------------------------- what falls
+     Fourteen is plenty: enough to read as weather, few enough that a phone
+     does not notice. Each one gets its own drift and spin so they never
+     fall in formation. Skipped entirely when motion is not wanted. */
+  (function () {
+    var host = document.querySelector('[data-fall]');
+    if (!host) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(max-width: 560px)').matches) return;
+
+    var COUNT = 14;
+    var tints = ['--p1', '--p2', '--p3'];
+    var styles = getComputedStyle(document.documentElement);
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < COUNT; i++) {
+      var el = document.createElement('span');
+      var size = 9 + Math.round(Math.random() * 12);
+      var tint = styles.getPropertyValue(tints[i % 3]).trim() || '#fff';
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      el.style.left = (Math.random() * 100).toFixed(2) + '%';
+      el.style.color = tint;
+      el.style.opacity = (0.45 + Math.random() * 0.45).toFixed(2);
+      el.style.animationDuration = (11 + Math.random() * 13).toFixed(1) + 's';
+      el.style.animationDelay = (-Math.random() * 22).toFixed(1) + 's';
+      el.style.setProperty('--drift', (Math.random() * 14 - 7).toFixed(1) + 'vw');
+      el.style.setProperty('--spin', (Math.random() * 720 - 360).toFixed(0) + 'deg');
+      frag.appendChild(el);
+    }
+    host.appendChild(frag);
+  })();
+
   /* ---------------------------------------------------------------- theme */
   (function () {
     var root = document.documentElement;
@@ -671,6 +851,47 @@ document.documentElement.classList.add('js');
         if (away) away.hidden = false;
       }
     });
+
+    // the piece the season is built around
+    var pick = {
+      autumn: { id: 'tee-lilac', name: 'Character tee, rust cardigan',
+        copy: 'Her in the rust cardigan, printed big across a heavyweight lilac tee. The one that matches the weather.',
+        note: 'Printed to order · S to XXL' },
+      winter: { id: 'hoodie-plum', name: 'Character hoodie',
+        copy: 'Heavyweight plum fleece with her in the puffer and beanie. Warm enough to be the one you actually reach for.',
+        note: 'Printed to order · S to XXL' },
+      spring: { id: 'tee-cream', name: 'Character tee, blossom cardigan',
+        copy: 'Her in the mint and blossom cardigan on a soft cream tee. The first one you wear without a coat.',
+        note: 'Printed to order · S to XXL' },
+      summer: { id: 'tote-canvas', name: 'Canvas tote',
+        copy: 'Her in the summer vest and sunglasses, printed on a natural canvas tote. Big enough for a laptop and a lunch.',
+        note: 'Natural canvas · one size' }
+    }[season];
+
+    if (pick) {
+      var gbp = function (pence) { return '\u00a3' + (pence / 100).toFixed(2); };
+      var img = document.querySelector('[data-spot-img]');
+      var name = document.querySelector('[data-spot-name]');
+      var copy = document.querySelector('[data-spot-copy]');
+      var price = document.querySelector('[data-spot-price]');
+      var note = document.querySelector('[data-spot-note]');
+      var eyebrow = document.querySelector('[data-spot-eyebrow]');
+      if (img) img.src = 'assets/img/' + pick.id + '.webp';
+      if (name) name.textContent = pick.name;
+      if (copy) copy.textContent = pick.copy;
+      if (price && CATALOGUE[pick.id]) price.textContent = gbp(CATALOGUE[pick.id].price);
+      if (note) note.textContent = pick.note;
+      if (eyebrow) eyebrow.textContent = word + ' pick';
+
+      var go = document.querySelector('[data-spot-go]');
+      if (go) {
+        go.addEventListener('click', function () {
+          var card = document.querySelector('[data-product="' + pick.id + '"]');
+          var add = card && card.querySelector('[data-add]');
+          if (add) add.focus();
+        });
+      }
+    }
   })();
 
   /* ----------------------------------------------------------------- cart */

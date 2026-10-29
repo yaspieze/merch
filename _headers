@@ -8,4 +8,4 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
-  Content-Security-Policy: default-src 'none'; script-src 'sha256-5yDCzIKOtFOGOJQ6vHdpstsa6eE0ZvQMWJoKd2/QL9k=' 'sha256-NNYBa0mCwWGCPQnpmhjOpD/m/jidZm0Pj+jh3/6pcaA='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'; worker-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; script-src 'sha256-+q80krLxUV2HcHiXkySuC7r4EYhi8LOmG41rnh30mfA=' 'sha256-ju5IcsY1M4tdgY+Uc51Ki7WtSy/KCJnBiU6xxO5qOuc='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'; worker-src 'none'; upgrade-insecure-requests
